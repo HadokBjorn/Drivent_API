@@ -13,8 +13,8 @@ async function getAddressFromCEP(cep: string) {
     throw notFoundError();
   }
 
-  const { logradouro, complemento, bairro, cidade, uf } = result.data as ViaCEPAddress;
-  return { logradouro, complemento, bairro, cidade, uf };
+  const { logradouro, complemento, bairro, uf, localidade } = result.data as ViaCEPAddress;
+  return { logradouro, complemento, bairro, cidade: localidade, uf };
 }
 
 async function getOneWithAddressByUserId(userId: number): Promise<GetOneWithAddressByUserIdResult> {
