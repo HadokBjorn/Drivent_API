@@ -13,8 +13,8 @@ async function getAddressFromCEP(cep: string) {
     throw notFoundError();
   }
 
-  const { logradouro, complemento, bairro, localidade, uf } = result.data as ViaCEPAddress;
-  return { logradouro, complemento, bairro, localidade, uf };
+  const { logradouro, complemento, bairro, cidade, uf } = result.data as ViaCEPAddress;
+  return { logradouro, complemento, bairro, cidade, uf };
 }
 
 async function getOneWithAddressByUserId(userId: number): Promise<GetOneWithAddressByUserIdResult> {
@@ -47,7 +47,6 @@ async function createOrUpdateEnrollmentWithAddress(params: CreateOrUpdateEnrollm
 
   // TODO - Verificar se o CEP é válido antes de associar ao enrollment.
   const isValidCep = await getAddressFromCEP(address.cep);
-  console.log(isValidCep);
   if (isValidCep.bairro === undefined) throw invalidDataError(['invalid cep']);
 
   const newEnrollment = await enrollmentRepository.upsert(params.userId, enrollment, exclude(enrollment, 'userId'));
